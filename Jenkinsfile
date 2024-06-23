@@ -1,5 +1,10 @@
+groovy
 pipeline {
     agent any
+
+    triggers {
+        githubPush()
+    }
 
     stages {
         stage('Checkout') {
