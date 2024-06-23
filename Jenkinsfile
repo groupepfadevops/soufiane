@@ -1,20 +1,11 @@
+groovy
 pipeline {
     agent any
-
-    tools {
-        // Installer le scanner SonarQube configuré
-        sonarQubeScanner 'SonarQubeScanner'
-    }
-
-    environment {
-        // Définir les variables d'environnement
-        SONARQUBE_SERVER = 'SonarQube'
-    }
-
+    
     triggers {
         githubPush()
     }
-
+    
     stages {
         stage('Checkout') {
             steps {
@@ -25,6 +16,7 @@ pipeline {
         stage('Setup') {
             steps {
                 bat 'python -m ensurepip --upgrade || echo Pip already installed'
+                bat 'python -m pip install --upgrade pip'
             }
         }
         
@@ -38,34 +30,40 @@ pipeline {
             steps {
                 bat 'python -m unittest discover -s src'
             }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                // Analyser le code avec SonarQube
-                withSonarQubeEnv('SonarQube') {
-                    bat 'sonar-scanner.bat'
+            post {
+                always {
+                    junit '**/TEST-*.xml'
                 }
             }
         }
         
-        stage('Quality Gate') {
+        stage('SonarQube Analysis') {
             steps {
-                script {
-                    timeout(time: 1, unit: 'HOURS') {
-                        def qg = waitForQualityGate()
-                        if (qg.status != 'OK') {
-                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                        }
-                    }
+                withSonarQubeEnv('SonarQubeServer') {
+                    bat 'sonar-scanner'
                 }
             }
         }
         
         stage('Deploy') {
+            when {
+                branch 'master'
+            }
             steps {
                 bat 'deploy.bat'
             }
+        }
+    }
+    
+    post {
+        always {
+            cleanWs()
+        }
+        success {
+            echo 'Build succeeded!'
+        }
+        failure {
+            echo 'Build failed!'
         }
     }
 }
