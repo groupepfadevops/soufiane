@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/groupepfadevops/contr-le-de-moteur.git'
+                git branch: 'master', url: 'https://github.com/groupepfadevops/soufiane.git'
             }
         }
         stage('Setup') {
