@@ -27,11 +27,11 @@ pipeline {
             }
         }
         stage('SonarQube Analysis') {
-            steps {
-                withSonarQubeEnv('SonarQubeServer') {
-                    bat 'sonar-scanner'
-                }
-            }
+               steps {
+                   withSonarQubeEnv('NomDeVotreServeurSonarQube') {  // Utilisez le nom exact configuré dans Jenkins
+                       bat 'sonar-scanner'
+                   }
+               }
         }
         stage('Deploy') {
             steps {
