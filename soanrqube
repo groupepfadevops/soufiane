@@ -46,8 +46,8 @@ pipeline {
                 withSonarQubeEnv('Sonarqube') {
                     bat """
                         sonar-scanner.bat \
-                        -Dsonar.projectKey=laayoune \
-                        -Dsonar.projectName=laayoune \
+                        -Dsonar.projectKey=controle_moteur \
+                        -Dsonar.projectName=controle_moteur \
                         -Dsonar.projectVersion=1.0.0 \
                         -Dsonar.sources=src \
                         -Dsonar.language=python \
