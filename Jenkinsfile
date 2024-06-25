@@ -28,7 +28,7 @@ pipeline {
         }
         stage('SonarQube Analysis') {
                steps {
-                   withSonarQubeEnv('Sonarqube') {  // Utilisez le nom exact configuré dans Jenkins
+                   withSonarQubeEnv('Sonarqube') {  
                        bat 'sonar-scanner'
                    }
                }
