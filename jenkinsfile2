@@ -11,13 +11,13 @@ pipeline {
 
     environment {
         // Set the SonarQube server name configured in Jenkins
-        SONARQUBE_SERVER = 'YourSonarQubeServerName'
+        SONARQUBE_SERVER = 'Sonarqube'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/groupepfadevops/contr-le-de-moteur.git'
+                git branch: 'master', url: 'https://github.com/groupepfadevops/soufiane.git'
             }
         }
         stage('Setup') {
@@ -33,7 +33,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube Server') {
-                    bat 'sonar-scanner -Dsonar.projectKey=myproject -Dsonar.sources=src -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN'
+                    bat 'sonar-scanner -Dsonar.projectKey=controle_moteur -Dsonar.sources=src -Dsonar.host.url=$SONAR_HOST_URL -Dsonar.login=$SONAR_AUTH_TOKEN'
                 }
             }
         }
