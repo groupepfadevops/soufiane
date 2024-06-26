@@ -10,7 +10,6 @@ pipeline {
     }
 
     environment {
-        // Set the SonarQube server name configured in Jenkins
         SONARQUBE_SERVER = 'Sonarqube'
     }
 
